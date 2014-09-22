@@ -1,0 +1,15 @@
+[Unit]
+Description=Random Logger
+After=docker.service
+Requires=docker.service
+
+[Service]
+TimeoutStartSec=0
+ExecStartPre=-/usr/bin/docker kill random-logger-1
+ExecStartPre=-/usr/bin/docker rm random-logger-1
+ExecStartPre=/usr/bin/docker pull denderello/random-logger
+ExecStart=/usr/bin/docker run -d --name random-logger-1 denderello/random-logger 
+ExecStop=/usr/bin/docker stop random-logger-1
+
+[Install]
+WantedBy=multi-user.target
